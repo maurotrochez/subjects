@@ -11,4 +11,4 @@ app.wsgi_app = ProxyFix(app.wsgi_app)
 #     return 'Hello World!'
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
