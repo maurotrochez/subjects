@@ -29,3 +29,17 @@ def new_user():
     res = jsonify()
     res.status_code = 500
     return res
+
+
+@api.route('/users/<int:id>', methods=['PUT'])
+def update_user(id):
+    data = request.json
+    res = User.update_user(id, data)
+    if res is None:
+        res = jsonify()
+        res.status_code = 404
+        return res
+    res = jsonify()
+    res.status_code = 200
+    return res
+
