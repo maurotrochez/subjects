@@ -36,7 +36,7 @@ class User(Base):
         user.import_data(data)
         session.add(user)
         session.commit()
-        return {}
+        return user
 
     @staticmethod
     def update_user(id, data):
@@ -47,6 +47,10 @@ class User(Base):
         session.add(user)
         session.commit()
         return {}
+
+    @staticmethod
+    def get_user_by_emial(email):
+        return session.query(User).filter_by(email=email).one_or_none()
 
 class University(Base):
     __tablename__ = 'universities'
@@ -214,20 +218,20 @@ class Subject(Base):
 class Calification(Base):
     __tablename__ = 'califications'
     id_calification = Column(Integer, primary_key=True, index=True)
-    note_1 = Column(DECIMAL, default=0)
-    note_2 = Column(DECIMAL, default=0)
-    note_3 = Column(DECIMAL, default=0)
-    note_add = Column(DECIMAL, default=0)
-    final_note = Column(DECIMAL, default=0)
+    note_1 = Column(DECIMAL(4, 2), default=0)
+    note_2 = Column(DECIMAL(4, 2), default=0)
+    note_3 = Column(DECIMAL(4, 2), default=0)
+    note_add = Column(DECIMAL(4, 2), default=0)
+    final_note = Column(DECIMAL(4, 2), default=0)
     id_subject = Column(Integer, nullable=False)
 
     def export_data(self):
         return {
-            'note_1': self.note_1,
-            'note_2': self.note_1,
-            'note_3': self.note_1,
-            'note_add': self.note_1,
-            'final_note': self.note_1,
+            'note_1': float(self.note_1),
+            'note_2': float(self.note_1),
+            'note_3': float(self.note_1),
+            'note_add': float(self.note_1),
+            'final_note': float(self.note_1),
             'id_subject': self.id_subject
         }
 

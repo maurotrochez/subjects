@@ -1,4 +1,5 @@
 from flask import jsonify, request
+import os
 from ..models import Calification
 from . import api
 
@@ -15,11 +16,11 @@ def get_calification(id):
         res = jsonify()
         res.status_code = 404
         return res
-    return jsonify({"calification": calification.export_data()})
+    return jsonify(calification.export_data())
 
 
 @api.route('/califications/', methods=['POST'])
-def new_subject():
+def new_calification():
     data = request.json
     res = Calification.new_calification(data)
     if res == {}:

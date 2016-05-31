@@ -1,4 +1,4 @@
-from flask import jsonify, request
+from flask import jsonify, request, Response, json
 from ..models import Subject
 from . import api
 
@@ -15,7 +15,7 @@ def get_subject(id):
         res = jsonify()
         res.status_code = 404
         return res
-    return jsonify({"subject": subject.export_data()})
+    return jsonify(subject.export_data())
 
 
 @api.route('/subjects/', methods=['POST'])
@@ -46,4 +46,7 @@ def update_subject(id):
 
 @api.route('/semesters/<int:id_semester>/subjects/', methods=['GET'])
 def get_subject_by_semester(id_semester):
-    return jsonify(semesters=Subject.get_subject_by_semester(id_semester))
+    data = Subject.get_subject_by_semester(id_semester)
+    print data
+    return Response(status=200, response=json.dumps(data))
+    # return jsonify(semesters=Subject.get_subject_by_semester(id_semester))

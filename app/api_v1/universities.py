@@ -1,4 +1,4 @@
-from flask import jsonify, request
+from flask import jsonify, request, Response, json
 from ..models import University
 from . import api
 
@@ -15,7 +15,7 @@ def get_university(id):
         res = jsonify()
         res.status_code = 404
         return res
-    return jsonify({"university": university.export_data()})
+    return jsonify(university.export_data())
 
 
 @api.route('/universities/', methods=['POST'])
@@ -46,4 +46,8 @@ def update_university(id):
 
 @api.route('/users/<int:id_user>/universities/', methods=['GET'])
 def get_university_by_user(id_user):
-    return jsonify(universities=University.get_university_by_user(id_user))
+    data = University.get_university_by_user(id_user)
+    print data
+    # res = json.dumps(univ.export_data() for univ in University.get_university_by_user(id_user))
+    return Response(status=200, response=json.dumps(data))
+    # return jsonify([univ.export_data() for univ in University.get_university_by_user(id_user)])

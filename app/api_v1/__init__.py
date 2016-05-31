@@ -1,6 +1,12 @@
-from flask import Blueprint
+from flask import Blueprint, request
 
 api = Blueprint('api', __name__)
+
+
+@api.before_request
+def before_request():
+    print "-"*25
+    print request
 
 
 @api.after_request
@@ -10,4 +16,8 @@ def after_request(response):
     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
     return response
 
-import users, universities
+import users
+import universities
+import semesters
+import subjects
+import califications
