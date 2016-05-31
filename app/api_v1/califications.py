@@ -4,7 +4,7 @@ from ..models import Calification
 from . import api
 
 
-@api.route('/califications/', methods=['GET'])
+@api.route('/califications', methods=['GET'])
 def get_califications():
     return jsonify(califications=Calification.get_califications())
 
@@ -19,9 +19,10 @@ def get_calification(id):
     return jsonify(calification.export_data())
 
 
-@api.route('/califications/', methods=['POST'])
+@api.route('/califications', methods=['POST'])
 def new_calification():
     data = request.json
+    print data
     res = Calification.new_calification(data)
     if res == {}:
         res = jsonify()
@@ -47,4 +48,10 @@ def update_calification(id):
 
 @api.route('/subjects/<int:id_subject>/califications/', methods=['GET'])
 def get_calification_by_subject(id_subject):
-    return jsonify(califications=Calification.get_calification_by_subject(id_subject))
+    calification = Calification.get_calification_by_subject(id_subject)
+    if calification is None:
+        res = jsonify()
+        res.status_code = 404
+        return res
+    return jsonify(calification.export_data())
+    # return jsonify(califications=Calification.get_calification_by_subject(id_subject))

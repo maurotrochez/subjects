@@ -3,7 +3,7 @@ from ..models import Subject
 from . import api
 
 
-@api.route('/subjects/', methods=['GET'])
+@api.route('/subjects', methods=['GET'])
 def get_subjects():
     return jsonify(subjects=Subject.get_subjects())
 
@@ -18,7 +18,7 @@ def get_subject(id):
     return jsonify(subject.export_data())
 
 
-@api.route('/subjects/', methods=['POST'])
+@api.route('/subjects', methods=['POST'])
 def new_subject():
     data = request.json
     res = Subject.new_subject(data)

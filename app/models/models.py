@@ -159,7 +159,7 @@ class Semester(Base):
 
 class Subject(Base):
     __tablename__ = 'subjects'
-    id_subject = Column(Integer, primary_key=True, index=True)
+    id_subject = Column(Integer, primary_key=True, index=True, autoincrement=True)
     code = Column(String(45), nullable=False)
     name = Column(String(255), nullable=False)
     teacher = Column(String(255), default=None)
@@ -228,10 +228,10 @@ class Calification(Base):
     def export_data(self):
         return {
             'note_1': float(self.note_1),
-            'note_2': float(self.note_1),
-            'note_3': float(self.note_1),
-            'note_add': float(self.note_1),
-            'final_note': float(self.note_1),
+            'note_2': float(self.note_2),
+            'note_3': float(self.note_3),
+            'note_add': float(self.note_add),
+            'final_note': float(self.final_note),
             'id_subject': self.id_subject
         }
 
@@ -277,6 +277,5 @@ class Calification(Base):
 
     @staticmethod
     def get_calification_by_subject(id_subject):
-        return [calification.export_data() for calification in session.query(Calification).filter_by(id_subject=
-                                                                                                     id_subject).all()]
+        return session.query(Calification).filter_by(id_subject=id_subject).one_or_none()
 
