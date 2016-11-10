@@ -5,8 +5,7 @@ api = Blueprint('api', __name__)
 
 @api.before_request
 def before_request():
-    print "-"*25
-    print request
+    pass
 
 
 @api.after_request
@@ -21,3 +20,4 @@ import universities
 import semesters
 import subjects
 import califications
+import registers

@@ -1,7 +1,7 @@
 import os
 from dotenv import Dotenv
 from sqlalchemy import create_engine
-from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 dotenv_path = Dotenv(os.path.join(os.getcwd(), ".env"))
@@ -15,7 +15,7 @@ db_setup = 'mysql+pymysql://{0}:{1}@{2}:{3}/{4}?charset=utf8'.format(
     os.environ.get('DATABASE'),
 )
 
-engine = create_engine(db_setup)
+engine = create_engine(db_setup, echo=True)
 Session = sessionmaker(bind=engine)
 session = Session()
 

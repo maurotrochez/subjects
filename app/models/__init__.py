@@ -1,2 +1,2 @@
-from .models import User, Semester, University, Calification, Subject
+from .models import User, Semester, University, Calification, Subject, Registers
 

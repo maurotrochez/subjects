@@ -1,6 +1,8 @@
 from .. import Base
-from sqlalchemy import String, Integer, Column, DECIMAL
+from sqlalchemy import String, Integer, Column, DECIMAL, DATETIME
 from .. import session
+from datetime import datetime
+from uuid import uuid1
 
 
 class User(Base):
@@ -23,7 +25,7 @@ class User(Base):
             self.name = data['name']
 
     @staticmethod
-    def get_users():
+    def mysqlget_users():
         return [user.export_data() for user in session.query(User).all()]
 
     @staticmethod
@@ -51,6 +53,7 @@ class User(Base):
     @staticmethod
     def get_user_by_emial(email):
         return session.query(User).filter_by(email=email).one_or_none()
+
 
 class University(Base):
     __tablename__ = 'universities'
@@ -278,4 +281,44 @@ class Calification(Base):
     @staticmethod
     def get_calification_by_subject(id_subject):
         return session.query(Calification).filter_by(id_subject=id_subject).one_or_none()
+
+
+class Registers(Base):
+    __tablename__ = 'registers'
+    id = Column(String, primary_key=True, index=True)
+    temperature = Column(DECIMAL(4, 2), default=0)
+    humidity = Column(DECIMAL(4, 2), default=0)
+    date = Column(DATETIME, default=datetime.now())
+
+    def export_data(self):
+        return {
+            "temperature": float(self.temperature),
+            "humidity": float(self.humidity),
+            "date": self.date
+        }
+
+    def import_data(self, data):
+        self.id = str(uuid1())
+        self.temperature = data.get('temperature')
+        self.humidity = data.get('humidity', 0)
+        self.date = datetime.now()
+
+    @staticmethod
+    def get_last_temperature():
+        temp = session.query(Registers).order_by(-Registers.date).first()
+        if temp is not None:
+            return temp.temperature
+        return 0
+
+    @staticmethod
+    def save_register(data):
+        try:
+            register = Registers()
+            register.import_data(data)
+            session.add(register)
+            session.commit()
+        except Exception as e:
+            print e
+            raise e
+
 

@@ -3,7 +3,7 @@ from ..models import University
 from . import api
 
 
-@api.route('/universities/', methods=['GET'])
+@api.route('/universities', methods=['GET'])
 def get_universities():
     return jsonify(universities=University.get_universities())
 
@@ -18,7 +18,7 @@ def get_university(id):
     return jsonify(university.export_data())
 
 
-@api.route('/universities/', methods=['POST'])
+@api.route('/universities', methods=['POST'])
 def new_university():
     data = request.json
     res = University.new_university(data)

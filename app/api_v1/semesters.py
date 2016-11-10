@@ -3,7 +3,7 @@ from ..models import Semester
 from . import api
 
 
-@api.route('/semesters/', methods=['GET'])
+@api.route('/semesters', methods=['GET'])
 def get_semesters():
     return jsonify(semesters=Semester.get_semesters())
 
@@ -19,7 +19,7 @@ def get_semester(id):
     return jsonify(semester.export_data())
 
 
-@api.route('/semesters/', methods=['POST'])
+@api.route('/semesters', methods=['POST'])
 def new_semester():
     data = request.json
     res = Semester.new_semester(data)
